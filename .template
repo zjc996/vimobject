@@ -1,0 +1,18 @@
+g_todo=$1
+
+cd $g_rootPath/$name
+
+CscopeInit()
+{
+	if [ "$g_todo" != "update" ]; then
+		return
+	fi
+	ctags -R $filePath
+	find $filePath -name "*.[ch]" -o -name "*.cpp" > cscope.files
+	cscope -Rbq
+    cp * ../common/
+}
+CscopeInit
+
+vim $runPath
+exit 0 

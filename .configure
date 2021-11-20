@@ -1,0 +1,6 @@
+name="nvr"
+
+runPath="/home/jczhang/src/nginx/nginx-1.14.2/src"
+
+filePath="/home/jczhang/src/nginx/nginx-1.14.2/src"
+filePath+=" "
