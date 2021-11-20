@@ -9,11 +9,11 @@ if [ $(echo $0 | grep '^/') ]; then
 	else
 		g_rootPath=$(pwd)/$(dirname $0)
 fi
+g_rootPath=~/.vo/
 g_paramNum=$#
 g_name=$1
 g_todo=$2
-
-##################函数定义区###########################
+#################函数定义区###########################
 
 CheckParameters()
 {
@@ -23,7 +23,7 @@ CheckParameters()
 	
 	if [ $paramNum -eq 0 ]; then
 		echo "please input object name. like:"
-		echo "    vimobj name"
+		echo "vo name"
 		exit
 	fi
 
@@ -44,20 +44,19 @@ CheckParameters()
 }
 
 CreateObject()
-{	
+{
 	name=$1
-
+    
 	if [ ! -d $name ]; then
 		mkdir -p $name
 		touch $name/run.sh
 		chmod +x $name/run.sh
 
-		sed -i  "s/name=\".*\"/name=\"${name}\"/g" .configure
+		sed -i  "s/name=\".*\"/name=\"${name}\"/g" $g_rootPath/.configure
 
-		cp .configure $name/configure	
+		cp $g_rootPath/.configure $name/configure	
 		return
 	fi
-
 }
 
 ObjectConfig()
@@ -67,16 +66,19 @@ ObjectConfig()
 	
 
 	echo "name=\"$name\"" > $name/run.sh
-	cat $name/configure >> $name/run.sh
 	echo "g_rootPath=$g_rootPath" >> $name/run.sh
-	cat .template >> $name/run.sh
-	
+	cat $g_rootPath/.template >> $name/run.sh
 	exit
+}
+ObjectAddFile()
+{
+    name=$1
+    echo "filePath+=\"$PWD \"" >> $g_rootPath/objs/$name/configure
 }
 
 RunOldObject()
 {	
-		name=`grep "name=\"" .configure`
+		name=`grep "name=\"" $g_rootPath/.configure`
 		if [ "$name" == "name=\"\"" ]; then
 			echo "nothing object"
 		fi
@@ -84,7 +86,9 @@ RunOldObject()
 		name=${name%*\"}
 		if [ ! -d $name  ]; then
 			echo "nothing object"
+            exit
 		fi
+        echo "curr obj is $name"
 		$name/run.sh
 		exit
 }
@@ -101,13 +105,17 @@ main()
 	name=$2
 	todo=$3
 
+	if [ "$todo" == "add" ]; then
+        ObjectAddFile $name
+    fi
+
 	cd $g_rootPath
+    cd objs
 	if [ $paramNum -eq 0 ]; then
 		RunOldObject
 	fi
-	CheckParameters $paramNum $name $todo
+	#CheckParameters $paramNum $name $todo
 	
-
 	if [ "$todo" == "clean" ]; then
 		Clean $name	
 	fi
@@ -117,7 +125,6 @@ main()
 	if [ "$todo" == "config" ]; then
 		ObjectConfig $name	
 	fi 
-	
 	$name/run.sh $todo
 
 }

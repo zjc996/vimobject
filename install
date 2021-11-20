@@ -1,0 +1,7 @@
+#!/bin/bash
+
+mkdir -p ~/.vo/objs
+cp bin/* /usr/bin/
+cp configure ~/.vo/.configure
+cp template ~/.vo/.template
+
