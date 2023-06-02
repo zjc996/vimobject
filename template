@@ -8,11 +8,12 @@ CscopeInit()
 		return
 	fi
 	find $filePath -name "*.[ch]" -o -name "*.cpp" > cscope.files
+
 	ctags `find $filePath -name "*.[ch]" -o -name "*.cpp"`
 	cscope -Rbq
 }
 CscopeInit
 rm -rf $g_rootPath/link
-ln -s $g_rootPath/$name $g_rootPath/link
+ln -s $g_rootPath/objs/$name $g_rootPath/link
 vim $runPath
 exit 0 

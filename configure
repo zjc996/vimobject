@@ -1,6 +1,7 @@
-name="nvr"
+name="cd"
 
-runPath="/home/jczhang/src/nginx/nginx-1.14.2/src"
+runPath="/home/zjc/pis/pis/"
 
-filePath="/home/jczhang/src/nginx/nginx-1.14.2/src"
-filePath+=" "
+filePath="/home/zjc/pis/pis/include/ "
+filePath+="/home/zjc/pis/pis/osshare/ "
+
