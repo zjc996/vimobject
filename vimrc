@@ -2,11 +2,11 @@
 "##################################################################[Plugin manager]
 " http://www.cnblogs.com/songfy/p/5635757.html 
 set rtp+=~/.vim/bundle/Vundle.vim
-
 "每次切换都把文件路径导入文件中
 function! AppendToFile()
     let l:start_time = reltime()
-    execute 'silent! call writefile([expand("%:p")], "/home/zjc/1.txt", "a")'
+    ":! vo -b "%:p"
+    "execute 'silent! call writefile([expand("%:p")], "/home/zjc/1.txt", "w")'
     let l:end_time = reltime(l:start_time)
     if reltimestr(l:end_time) !=# '0.000000'
        "echomsg 'Appended file: ' . expand("%:p") . ' (Time: ' . reltimestr(l:end_time) . ')'
@@ -161,9 +161,9 @@ let g:argv = argv(0)
 "echo "argv:" g:argv "argc:" g:argc  
 
 if (expand(g:argv) == expand("clean")) 
-    let g:clean = 1
     echo "clean all session.vim.."
     silent :!~/.vim/shell/del.sh
+    let g:clean = 1
 endif
 
 
@@ -644,4 +644,6 @@ function! LeaveHandler()
         echo "exit but no save session.vim"
     endif
 endfunction
+
+
 

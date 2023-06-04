@@ -4,7 +4,7 @@ cd $g_rootPath/objs/$name
 source configure
 CscopeInit()
 {
-	if [ "$g_todo" != "update" ]; then
+	if [ "$g_todo" != "-u" ]; then
 		return
 	fi
 	find $filePath -name "*.[ch]" -o -name "*.cpp" > cscope.files
