@@ -108,8 +108,15 @@ Clean()
 main()
 {
 	paramNum=$1
-	name=$2
-	todo=$3
+	todo=$2
+	name=$3
+    echo paramNum=$paramNum
+    echo name=$name
+    echo todo=$todo
+    if [[ "$todo" != -* ]]; then
+        echo 参数错误
+        exit 1
+    fi
 
 	if [ "$todo" == "add" ]; then
         ObjectAddFile $name

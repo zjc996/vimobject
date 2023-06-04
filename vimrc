@@ -2,6 +2,7 @@
 "##################################################################[Plugin manager]
 " http://www.cnblogs.com/songfy/p/5635757.html 
 set rtp+=~/.vim/bundle/Vundle.vim
+
 "每次切换都把文件路径导入文件中
 function! AppendToFile()
     let l:start_time = reltime()
@@ -45,6 +46,7 @@ Plugin 'Lokaltog/vim-distinguished'
 "Plugin 'vim/vim' "vim8.0+
 
 call vundle#end()
+
 
 filetype plugin indent on
 "##################################################################[default value set]
