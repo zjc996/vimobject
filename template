@@ -10,7 +10,7 @@ CscopeInit()
 	find $filePath -name "*.[ch]" -o -name "*.cpp" > cscope.files
 
 	ctags `find $filePath -name "*.[ch]" -o -name "*.cpp"`
-	cscope -Rbq
+	cscope -Rbq `find $filePath -name "*.[ch]" -o -name "*.cpp"`
 }
 CscopeInit
 rm -rf $g_rootPath/link

@@ -78,6 +78,8 @@ ObjectAddFile()
 {
     name=$1
     echo "filePath+=\"$PWD \"" >> $g_rootPath/objs/$name/configure
+    echo "filePath+=\"$PWD \""
+    exit 0
 }
 
 RunOldObject()
