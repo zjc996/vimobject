@@ -1,7 +1,5 @@
-name="cd"
+name="demo"
 
-runPath="/home/zjc/pis/pis/"
+runPath="$HOME/"
 
-filePath="/home/zjc/pis/pis/include/ "
-filePath+="/home/zjc/pis/pis/osshare/ "
 

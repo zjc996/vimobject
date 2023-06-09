@@ -327,9 +327,8 @@ if a:cmd == 50
     return
 endif
 
-if filereadable('~/.vo/link/cscope.out')
-
-exec "cs add ~/.vo/link/cscope.out"
+if findfile('~/.vo/link/cscope.out', '~/.vo/link/') != ""
+    exec "cs add ~/.vo/link/cscope.out"
 endif
 
 if a:cmd == 51
@@ -522,20 +521,6 @@ let g:ctrlp_regexp = 1
 let g:ctrlp_cache_dir = '~/.cache/ctrlp'
 let g:ctrlp_show_hidden = 0
 
-" sudo apt-get install silversearcher-ag
-" when use ag ,add custom ignore to : ~/.agignore
-if executable('ag')
-    let g:ag_highlight=1
-    let g:ctrlp_use_caching = 1
-    set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = 'ag %s -l --nocolor --hidden -g ""'
-else
-    let g:ctrlp_use_caching = 1
-    let g:ctrlp_user_command = ['.git', 'cd %s && git ls-files . -co --exclude-standard', 'find %s -type f']
-    let g:ctrlp_prompt_mappings = {
-    'AcceptSelection("e")': ['<space>', '<cr>', '<2-LeftMouse>'],
-    }
-endif
 
 " echo "g:ctrlp_user_command :" g:ctrlp_user_command
 

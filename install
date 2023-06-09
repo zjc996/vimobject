@@ -1,7 +1,10 @@
 #!/bin/bash
 
-mkdir -p ~/.vo/objs
-cp bin/* /usr/bin/
-cp configure ~/.vo/.configure
-cp template ~/.vo/.template
+mkdir -p $HOME/.vo/objs
 
+mkdir -p $HOME/.vim
+ln -sf `pwd`/bin/vo /usr/bin/vo
+ln -sf `pwd`/configure $HOME/.vo/.configure
+ln -sf `pwd`/template $HOME/.vo/.template
+ln -sf `pwd`/vimrc $HOME/.vimrc
+cp -R vim/* $HOME/.vim/
