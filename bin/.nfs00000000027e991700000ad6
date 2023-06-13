@@ -55,9 +55,6 @@ CreateObject()
 		mkdir -p $name
 		touch $name/run.sh
 		chmod +x $name/run.sh
-        echo "name=\"$name\"" > $name/run.sh
-        echo "g_rootPath=$g_rootPath" >> $name/run.sh
-        cat $g_rootPath/.template >> $name/run.sh
 
 		sed -i  "s/name=\".*\"/name=\"${name}\"/g" $g_rootPath/.configure
 
@@ -72,6 +69,9 @@ ObjectConfig()
 	vim $name/configure
 	
 
+	echo "name=\"$name\"" > $name/run.sh
+	echo "g_rootPath=$g_rootPath" >> $name/run.sh
+	cat $g_rootPath/.template >> $name/run.sh
 	exit
 }
 ObjectAddFile()
@@ -83,32 +83,30 @@ ObjectAddFile()
 
 RunOldObject()
 {	
-	name=`grep "name=\"" $g_rootPath/link/configure`
-	if [ "$name" == "name=\"\"" ]; then
-		echo "nothing object"
-	fi
-	name=${name#*\"}
-	name=${name%*\"}
-	if [ ! -d $name  ]; then
-		echo "nothing object"
-        exit
-	fi
-    echo "curr obj is $name"
-	$name/run.sh
-	exit
+		name=`grep "name=\"" $g_rootPath/link/configure`
+		if [ "$name" == "name=\"\"" ]; then
+			echo "nothing object"
+		fi
+		name=${name#*\"}
+		name=${name%*\"}
+		if [ ! -d $name  ]; then
+			echo "nothing object"
+            exit
+		fi
+        echo "curr obj is $name"
+		$name/run.sh
+		exit
 }
 Delete()
 {
 	name=$1
 	rm -rf $name
-    echo "delete object $name"
 	exit
 }
 RunPath()
 {
     name=$1
     path=$2
-    echo "change object $name run path to $path"
     sed -i "s|runPath=\".*\"|runPath=\"${path}\"|g" $g_rootPath/link/configure
     $g_rootPath/link/run.sh
 }
@@ -125,11 +123,6 @@ main()
         echo error param
         exit 0
     fi
-	
-	cd $g_rootPath/objs
-	CreateObject $name
-    cd - >> /dev/null
-
     # 添加项目目录pwd
 	if [ "$todo" == "-a" ]; then
         ObjectAddFile $name
@@ -141,7 +134,8 @@ main()
         exit 0
     fi
 
-    cd - >> /dev/null
+	cd $g_rootPath
+    cd objs
     # 无参数就运行之前打开的工程
 	if [ $paramNum -eq 0 ]; then
 		RunOldObject
@@ -152,6 +146,8 @@ main()
 		Delete $name	
         exit 0
 	fi
+	
+	CreateObject $name
     # 配置工程
 	if [ "$todo" == "-c" ]; then
 		ObjectConfig $name	
@@ -159,7 +155,6 @@ main()
 	fi 
     # 更新工程，刷新tag，cscope
 	if [ "$todo" == "-u" ]; then
-        echo "update object $name tags"
         $name/run.sh $todo
         exit 0
 	fi 

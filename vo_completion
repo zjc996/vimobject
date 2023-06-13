@@ -1,0 +1,14 @@
+cmd_complete() {
+    local cur prev opts base files
+    COMPREPLY=()
+    cur="${COMP_WORDS[COMP_CWORD]}"
+    prev="${COMP_WORDS[COMP_CWORD-1]}"
+    files=$(find $HOME/.vo/objs/ -maxdepth 1 -type d -printf "%f\n" | grep -v objs/)
+        COMPREPLY=( $(compgen -W "${files}" -- "${cur}") )  # 根据文件名生成补全项
+    if [[ ${cur} == -* ]] ; then
+        opts="-c -u -d -r -a"
+        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
+    fi
+    return 0
+}
+complete -F cmd_complete vo

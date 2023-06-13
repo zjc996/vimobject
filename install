@@ -1,7 +1,8 @@
 #!/bin/bash
 
 mkdir -p $HOME/.vo/objs
-
+mkdir -p $HOME/.bash_completion.d/
+ln -sf `pwd`/vo_completion $HOME/.bash_completion.d/vo_completion
 mkdir -p $HOME/.vim
 ln -sf `pwd`/bin/vo /usr/bin/vo
 ln -sf `pwd`/configure $HOME/.vo/.configure

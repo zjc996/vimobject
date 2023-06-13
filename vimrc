@@ -60,6 +60,8 @@ set cul
 set paste
 set smartindent "智能对齐
 
+set autoindent
+
 set confirm "在处理未保存或只读文件的时候，弹出确认框
 set tabstop=4 "tab键的宽度
 set softtabstop=4
