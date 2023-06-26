@@ -8,7 +8,7 @@ function! AppendToFile()
     ":! vo -b "%:p"
     "execute 'silent! call writefile([expand("%:p")], "/home/zjc/1.txt", "w")'
     let l:end_time = reltime(l:start_time)
-    if reltimestr(l:end_time) !=# '0.000000'
+    if reltimestr(l:end_time) !=# '0.0000'
        "echomsg 'Appended file: ' . expand("%:p") . ' (Time: ' . reltimestr(l:end_time) . ')'
     endif
 endfunction
@@ -21,11 +21,9 @@ call vundle#begin()
 " Plugin 'Yggdroot/LeaderF'
 Plugin 'Mark'
 Plugin 'VundleVim/Vundle.vim'
-Plugin 'tacahiroy/ctrlp-funky'
 Plugin 'tpope/vim-fugitive'
 Plugin 'vim-scripts/winmanager'
 Plugin 'rstacruz/sparkup', {'rtp': 'vim/'}
-Plugin 'kien/ctrlp.vim'
 Plugin 'wincent/command-t'
 Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
@@ -39,16 +37,17 @@ Plugin 'plasticboy/vim-markdown'
 Plugin 'portante/cscope'
 Plugin 'tomasr/molokai'
 Plugin 'altercation/vim-colors-solarized'
-
+Plugin 'ervandew/supertab'
 Plugin 'fatih/vim-go'
 Plugin 'Lokaltog/vim-distinguished'
-"Plugin 'Valloric/YouCompleteMe' "NEED VIM8.0+ & PYTHON3.5+ support.
-"Plugin 'vim/vim' "vim8.0+
+Plugin 'Valloric/YouCompleteMe' 
+Plugin 'vim/vim' "vim8.0+
 
 call vundle#end()
 
-
 filetype plugin indent on
+" set completeopt=menu,preview
+
 "##################################################################[default value set]
 set modelines=0
 set backspace=2 "设置更好的删除
@@ -60,7 +59,7 @@ set cul
 set paste
 set smartindent "智能对齐
 
-set autoindent
+" set autoindent
 
 set confirm "在处理未保存或只读文件的时候，弹出确认框
 set tabstop=4 "tab键的宽度
@@ -170,20 +169,20 @@ endif
 
 
 "##################################################################[key map]
-nmap 1 : bp <cr>
-nmap 2 : bn <cr>
-nmap <Leader>1 : bd <cr>
-nmap <Leader>3 : PluginInstall <cr>
+nmap <Leader>1 : bp <cr>
+nmap <Leader>2 : bn <cr>
+nmap <Leader>3 : bd <cr>
+"nmap <Leader>3 : PluginInstall <cr>
 
-nmap 3 : cn <cr>
-nmap 4 : cp <cr>
+"nmap 3 : cn <cr>
+"nmap 4 : cp <cr>
 
-nmap 5 <C-]>
+"nmap 5 <C-]>
 nmap <silent> <F5> <C-o>
 
-nmap 6 <C-o>
+"nmap 6 <C-o>
 
-nmap 7 <C-i>
+"nmap 7 <C-i>
 
 "行号切换
 map <silent> <F2> : call UserFunctionSwitch(0) <CR>
@@ -197,11 +196,6 @@ nmap <silent> <F3> : call UserFunctionSwitch(3) <CR>
 
 "mru, file open history record
 " nmap <silent> <Leader><F4> : call UserFunctionSwitch(4) <CR>
-" ctrlpFunky
-nmap <silent> <Leader><F4> : exec 'CtrlPFunky' <CR>
-nmap <silent> <Leader>fu : exec 'CtrlPFunky ' . expand('<cword>') <CR>
-"file search
-nmap <silent> <F4> : exec "CtrlP ." <CR>
 
 "make source tags
 nmap <silent> <F5> : call UserFunctionSwitch(5) <CR>
@@ -223,12 +217,6 @@ nmap <silent> <Leader><F7> : call UserFunctionSwitch(6) <CR>
 nmap <silent> <F8> : call UserFunctionSwitch(50) <CR>
 nmap <silent> <F9> : :w <CR>
 
-"ack search file & symbols
-nmap <Leader>s : Ack <Space>
-nmap <Leader>f : AckFile <Space>
-nmap <Leader>q : q <CR>
-nmap <Leader>qa : qall <CR>
-
 
 " quit all & save session.vim.
 nmap <F12> : call UserFunctionSwitch(30) <CR>
@@ -248,6 +236,9 @@ nmap cg : cscope find g  <C-R>=expand("<cword>")<CR><CR>
 nmap cs : cscope find s  <C-R>=expand("<cword>")<CR><CR>
 nmap ce : cscope find e<space>
 nmap ci : cscope find i  <C-R>=expand("<cfile>")<CR><CR>
+
+
+
 "##################################################################[function]
 let g:userFuncSwitch = 1
 let g:line_number_show = 0
@@ -256,6 +247,7 @@ let g:window_flag = 1
 let g:MRU_flag = 0
 let g:themes_flag = 1
 let g:ctags = ""
+
 
 let g:quickfix = 0
 let g:quit_save = 0
@@ -266,10 +258,12 @@ exec ":syntax on"
 if a:cmd == 0
     if g:line_number_show == 0
         exec 'set nu'
+        exec 'set autoindent'
         let g:line_number_show = 1
         echo 'Show line number!'
     else
         exec 'set nonu'
+        exec 'set noautoindent'
         let g:line_number_show = 0
     endif
     return
@@ -330,7 +324,8 @@ if a:cmd == 50
 endif
 
 if findfile('~/.vo/link/cscope.out', '~/.vo/link/') != ""
-    exec "cs add ~/.vo/link/cscope.out"
+    silent cs kill -1
+    silent exec "cs add ~/.vo/link/cscope.out"
 endif
 
 if a:cmd == 51
@@ -460,31 +455,18 @@ let Tlist_Exit_OnlyWindow = 1 " 如果 taglist 窗口是最后一个窗口，则
 let Tlist_Use_Right_Window = 1
 let Tlist_Auto_Open = 0
 "###################################################################[cscope]
-" http://blog.csdn.net/citongke1/article/details/8497244
-
-" 安装：
-" sudo apt-get install cscope
-
-" 创建索引：
-" cscope -Rbq
-" 把需要创建索引的文件类型输入到这个文件
-" find . -type f > cscope.files
-
-" 添加到vim：
-" :cs add ./cscope.out
-
 " 查找函数func：
 " :cs find s func
 
 " vim支持8种cscope的查询功能，如下：
-" s: 查找C语言符号，即查找函数名、宏、枚举值等出现的地方（包括头文件）
-" g: 查找函数、宏、枚举等定义的位置，类似ctags所提供的功能（比如有可能只在头文件处）
-" d: 查找本函数调用的函数
-" c: 查找调用本函数的函数
-" t: 查找指定的字符串
-" e: 查找egrep模式，相当于egrep功能，但查找速度快多了
-" f: 查找并打开文件，类似vim的find功能
-" i: 查找包含本文件的文件
+"cs: 查找C语言符号，即查找函数名、宏、枚举值等出现的地方（包括头文件）
+"cg: 查找函数、宏、枚举等定义的位置，类似ctags所提供的功能（比如有可能只在头文件处）
+"cd: 查找本函数调用的函数
+"cc: 查找调用本函数的函数
+"ct: 查找指定的字符串
+"ce: 查找egrep模式，相当于egrep功能，但查找速度快多了
+"cf: 查找并打开文件，类似vim的find功能
+"ci: 查找包含本文件的文件
 " 其他功能可输入：help cscope查看
 
 if has("cscope")
@@ -503,39 +485,7 @@ if has("cscope")
     set csverb
 endif
 
-" set rtp+=~/.vim/bundle/vim-go
-"##################################################################[Ctrlp]
-set rtp+=~/.vim/bundle/ctrlp.vim
-:helptags ~/.vim/bundle/ctrlp.vim/doc
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'cra'
-
-let g:ctrlp_custom_ignore = {
-    \ 'dir':  '\v[\/]\.(git|hg|svn|rvm|out|gen)$',
-    \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc|a|img|apk|bak|ko|deb|~|swp|tmp|html|jpg|png|bmp|ogg|log|jar|o)$',
-    \ }
-
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.exe,*.tar,*.deb,*~,*.bak,*.ko,*.bin,*.img,*.apk,*.jar
-
-let g:ctrlp_regexp = 1
-
-let g:ctrlp_cache_dir = '~/.cache/ctrlp'
-let g:ctrlp_show_hidden = 0
-
-
-" echo "g:ctrlp_user_command :" g:ctrlp_user_command
-
-let g:ctrlp_clear_cache_on_exit = 1
-let g:ctrlp_max_depth = 1000
-let g:ctrlp_max_files = 5000000
-
-
-" ctrlpFunky
-let g:ctrlp_funky_syntax_highlight = 1
-let g:ctrlp_funky_use_cache = 1
-let g:ctrlp_funky_nolim = 1
-"##################################################################[winManager]
+"##################################################################[winManager] 文件管理器
 let g:NERDTree_title="[NERDTree]"  
 let g:winManagerWindowLayout='NERDTree'
 
@@ -557,13 +507,13 @@ endfunction
 "   end  
 "endfunction  
 
-"##################################################################[MiniBufExplorer]
+"##################################################################[MiniBufExplorer] 文件buffer管理器
 let g:default_open_minibufexplorer = 0
 let g:miniBufExplMapWindowNavVim = 1   
 let g:miniBufExplMapWindowNavArrows = 1   
 let g:miniBufExplMapCTabSwitchBufs = 1   
 let g:miniBufExplModSelTarget = 1  
-let g:miniBufExplMoreThanOne=0 
+let g:miniBufExplMoreThanOne=0
 
 "BufExplorer
 set rtp+=~/.vim/bundle/bufexplorer
@@ -600,8 +550,17 @@ set runtimepath^=~/.vim/bundle/auto-pairs
 let g:AutoPairsFlyMode = 1
 let g:AutoPairsShortcutBackInsert = '<M-b>'
 set laststatus=2
-"##################################################################[nerdcommenter] "\cc 注释当前行和选中行  
-"\cu 取消注释 
+"##################################################################[nerdcommenter]
+" 使用默认的快捷键, 不需要自己绑定。
+" 如果多行注释，先ctrl+v进入visual模式，然后选中多行。
+" <leader> 是反斜杠 \ 这个键.我用的默认的,当然你可以自己该键位.
+"
+" <leader>cc   加注释
+" <leader>cu   解开注释
+" <leader>ca 切换注释的样式:/*....*/和//..的切换
+" <leader>c<space>  加上/解开注释, 智能判断
+" <leader>cy   先复制, 再注解(p可以进行黏贴)
+" <leader>cs  '性感的'注释
 set rtp+=~/.vim/bundle/nerdcommenter
 let g:NERDSpaceDelims = 1
 let g:NERDAltDelims_java = 1
@@ -609,16 +568,6 @@ let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
 let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 let g:NERDCompactSexyComs = 1
-
-"##################################################################[ack]
-set rtp+=~/.vim/bundle/ack.vim
-let g:ackprg = '~/.vim/shell/xgrep' "find symbols and files.
-let g:ack_autoclose = 1
-let g:ackpreview = 1
-let g:ackhighlight = 1
-let g:ack_autofold_results = 0
-let g:ack_lhandler = "botright lopen 8"
-let g:ack_qhandler = "botright copen 8"
 
 "##################################################################[resume history]
 function! LeaveHandler()
@@ -631,6 +580,27 @@ function! LeaveHandler()
         echo "exit but no save session.vim"
     endif
 endfunction
+"##################################################################[YouCompleteMe]
 
+let g:ycm_min_num_of_chars_for_completion = 3 
+let g:ycm_min_num_of_chars_for_completion = 3 
+let g:ycm_min_num_of_chars_for_completion = 3 
+let g:ycm_min_num_of_chars_for_completion = 3 
+let g:ycm_min_num_of_chars_for_completion = 3 
 
-
+let g:bufExplorerShowRelativePath=0  " Show absolute paths.
+let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_complete_in_comments = 1
+let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
+" 比较喜欢用tab来选择补全...
+function! MyTabFunction ()
+    let line = getline('.')
+    let substr = strpart(line, -1, col('.')+1)
+    let substr = matchstr(substr, "[^ \t]*$")
+    if strlen(substr) == 0
+        return "\<tab>"
+    endif
+    return pumvisible() ? "\<c-n>" : "\<c-x>\<c-o>"
+endfunction
+inoremap <tab> <c-r>=MyTabFunction()<cr>
