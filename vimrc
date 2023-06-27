@@ -1,6 +1,6 @@
 
 "##################################################################[Plugin manager]
-" http://www.cnblogs.com/songfy/p/5635757.html 
+" http://www.cnblogs.com/songfy/p/5635757.html
 set rtp+=~/.vim/bundle/Vundle.vim
 "每次切换都把文件路径导入文件中
 function! AppendToFile()
@@ -9,7 +9,7 @@ function! AppendToFile()
     "execute 'silent! call writefile([expand("%:p")], "/home/zjc/1.txt", "w")'
     let l:end_time = reltime(l:start_time)
     if reltimestr(l:end_time) !=# '0.0000'
-       "echomsg 'Appended file: ' . expand("%:p") . ' (Time: ' . reltimestr(l:end_time) . ')'
+        "echomsg 'Appended file: ' . expand("%:p") . ' (Time: ' . reltimestr(l:end_time) . ')'
     endif
 endfunction
 
@@ -30,7 +30,7 @@ Plugin 'majutsushi/tagbar'
 Plugin 'jiangmiao/auto-pairs'
 Plugin 'minibufexpl.vim'
 Plugin 'jlanzarotta/bufexplorer'
-Plugin 'taglist.vim' 
+Plugin 'taglist.vim'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'godlygeek/tabular'
 Plugin 'plasticboy/vim-markdown'
@@ -38,9 +38,9 @@ Plugin 'portante/cscope'
 Plugin 'tomasr/molokai'
 Plugin 'altercation/vim-colors-solarized'
 Plugin 'ervandew/supertab'
-Plugin 'fatih/vim-go'
+Plugin 'Chiel92/vim-autoformat'
 Plugin 'Lokaltog/vim-distinguished'
-Plugin 'Valloric/YouCompleteMe' 
+Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim/vim' "vim8.0+
 
 call vundle#end()
@@ -59,8 +59,9 @@ set cul
 set paste
 set smartindent "智能对齐
 
-" set autoindent
 
+" set autoindent
+set fileformat=unix
 set confirm "在处理未保存或只读文件的时候，弹出确认框
 set tabstop=4 "tab键的宽度
 set softtabstop=4
@@ -90,10 +91,10 @@ set autowrite "在切换buffer时自动保存当前文件
 set wildmenu  "增强模式中的命令行自动完成操作
 set linespace=2 "字符间插入的像素行数目
 set whichwrap=b,s,<,>,[,] "开启normal 或visual模式下的backspace键空格键，
-                          "左右方向键,insert或replace模式下的左方向键，右方向键的跳行功能
+"左右方向键,insert或replace模式下的左方向键，右方向键的跳行功能
 
-filetype plugin indent on "分为三部分命令:file on,file plugin on,file indent on 
-                          "分别是自动识别文件类型, 用用文件类型脚本,使用缩进定义文件
+filetype plugin indent on "分为三部分命令:file on,file plugin on,file indent on
+"分别是自动识别文件类型, 用用文件类型脚本,使用缩进定义文件
 
 set foldenable  "允许折叠
 set cursorline "突出显示当前行
@@ -103,31 +104,31 @@ set ignorecase "搜索忽略大小写
 
 set foldmethod=syntax "使用语法高亮定义代码折叠: zc 折叠, zo 展开
 set foldlevelstart=99 "打开文件是默认不折叠代码
-set fdm=indent 
+set fdm=indent
 set statusline=%F%m%r%h%w\ %{&encoding}\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strftime(\"%y/%m/%d\ %H:%M\")}
 "set mouse= "鼠标默认值
 "set number "显示行号
-  
+
 " 自动切换vim工作目录
 set autochdir
 " :cd   改变vim的当前工作路径
 " :lcd  改变当前窗口的工作路径
 " :pwd  查看当前的工作路径
 
-behave mswin 
+behave mswin
 
-if has("autocmd")                                                                                                          
-    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif                             
-    au InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"  
-    au InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"  
-    au VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block" 
+if has("autocmd")
+    au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+    au InsertEnter * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape ibeam"
+    au InsertLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
+    au VimLeave * silent execute "!gconftool-2 --type string --set /apps/gnome-terminal/profiles/Default/cursor_shape block"
 
     " autocmd BufNewFile,Bufread *.hal set syntax=help
-    au BufRead,BufNewFile *.hal set filetype=c 
-    au BufRead,BufNewFile *.bp set filetype=c 
-    au BufRead,BufNewFile *.txt set filetype=c 
-    au BufRead,BufNewFile *.log set filetype=c 
-endif 
+    au BufRead,BufNewFile *.hal set filetype=c
+    au BufRead,BufNewFile *.bp set filetype=c
+    au BufRead,BufNewFile *.txt set filetype=c
+    au BufRead,BufNewFile *.log set filetype=c
+endif
 "##################################################################[auto exec cmds]
 "autocmd VimEnter * TagbarToggle "auto start cmd
 "autocmd VimEnter * WMToggle "auto start cmd
@@ -136,7 +137,7 @@ endif
 "default themes
 autocmd VimEnter * call UserFunctionSwitch(6)
 
- " default show line number
+" default show line number
 autocmd VimEnter * call UserFunctionSwitch(0)
 
 " default enable mouse
@@ -144,7 +145,7 @@ autocmd VimEnter * call UserFunctionSwitch(1)
 
 "Open Nerdtree when start vim with no argument
 if argc() == 0 && !exists("s:std_in")
-"    autocmd VimEnter * WMToggle
+    "    autocmd VimEnter * WMToggle
 endif
 
 
@@ -159,9 +160,9 @@ set tags=~/.vo/link/tags
 
 let g:argc = argc()
 let g:argv = argv(0)
-"echo "argv:" g:argv "argc:" g:argc  
+"echo "argv:" g:argv "argc:" g:argc
 
-if (expand(g:argv) == expand("clean")) 
+if (expand(g:argv) == expand("clean"))
     echo "clean all session.vim.."
     silent :!~/.vim/shell/del.sh
     let g:clean = 1
@@ -183,7 +184,7 @@ nmap <silent> <F5> <C-o>
 "nmap 6 <C-o>
 
 "nmap 7 <C-i>
-
+nmap <silent> <Leader><F1> : Autoformat <CR>
 "行号切换
 map <silent> <F2> : call UserFunctionSwitch(0) <CR>
 "鼠标切换
@@ -207,7 +208,7 @@ nmap <silent> <Leader><F6> : call UserFunctionSwitch(70) <CR>
 nmap <silent> <F6> : call UserFunctionSwitch(7) <CR>
 nmap <silent> 9 : call UserFunctionSwitch(7) <CR>
 
-"quickfix 
+"quickfix
 nmap <silent> <F7> : call UserFunctionSwitch(8) <CR>
 "nmap <silent> 8 : call UserFunctionSwitch(80) <CR>
 "nmap <silent> 9 : call UserFunctionSwitch(81) <CR>
@@ -226,7 +227,7 @@ nmap <Leader>w : w <CR>
 "nmap :W : w <CR>
 "imap :w : :w <CR>
 nmap <Leader>rn : %s/\r//g <CR> "替换^Ｍ
-nmap <Leader>rs : call LeaveHandler() <Space> 
+nmap <Leader>rs : call LeaveHandler() <Space>
 
 " cscope
 nmap cc : cscope find c  <C-R>=expand("<cword>")<CR><CR>
@@ -252,198 +253,198 @@ let g:ctags = ""
 let g:quickfix = 0
 let g:quit_save = 0
 function! UserFunctionSwitch(cmd)
-let g:userFuncSwitch = a:cmd
-exec ":syntax on"
+    let g:userFuncSwitch = a:cmd
+    exec ":syntax on"
 
-if a:cmd == 0
-    if g:line_number_show == 0
-        exec 'set nu'
-        exec 'set autoindent'
-        let g:line_number_show = 1
-        echo 'Show line number!'
-    else
-        exec 'set nonu'
-        exec 'set noautoindent'
-        let g:line_number_show = 0
-    endif
-    return
-endif
-
-if a:cmd == 1
-    if g:mouse_enable == 0
-        let g:mouse_enable = 1
-        exec 'set mouse=n' 
-        echo 'enable mouse'
-    else
-        let g:mouse_enable = 0 
-       exec 'set mouse='
-        echo 'disable mouse'
-    endif
-    return
-endif
-
-if a:cmd == 2
-    exec 'WMToggle'
-    return
-endif
-
-if a:cmd == 3
-    exec 'TagbarToggle'
-    return
-endif
-
-if a:cmd == 4
-    if g:MRU_flag == 0
-        let g:MRU_flag = 1
-        exec 'MRU'
-    else
-        let g:MRU_flag = 0
-        exec 'MRU'
-        exec 'q'
-    endif
-    return
-endif
-
-if a:cmd == 5
-    echo "Start make tag.."
-    let g:time1 = localtime() 
-    let g:ctags = system("~/.vim/shell/make-ctags.sh " . shellescape(expand('%:h')))
-    let g:ctag_execcmd = "set tags+=" . g:ctags
-    exec g:ctag_execcmd
-    let g:time2 = localtime()
-    " echo g:ctag_execcmd "escape time:" (g:time2 - g:time1)"s"
-    return
-endif
-
-" 一键更新ctags & cscope..
-if a:cmd == 50
-    " exec g:ctag_execcmd
-    " cs kill -1
-    " exec g:cscope_cmd
-    return
-endif
-
-if findfile('~/.vo/link/cscope.out', '~/.vo/link/') != ""
-    silent cs kill -1
-    silent exec "cs add ~/.vo/link/cscope.out"
-endif
-
-if a:cmd == 51
-    echo "Start make cscope.."
-    let t1 = localtime() 
-    "let db = system("~/.vim/shell/cscope.sh " . shellescape(expand('%:p')))
-    let db = system("~/.vo/link/run.sh update " . shellescape(expand('%:p')))
-    "let path = strpart(db, 0, match(db, "cscope.out")) " 必须这样截取,否则多余的结束符^@会导致cs add 异常. 
-    "let g:cscope_cmd = "cs add " . path . "cscope.out"
-    let g:cscope_cmd = "cs add ~/.vo/link/cscope.out"
-    echo g:cscope_cmd
-    cs kill -1
-    exec g:cscope_cmd
-    let t2 = localtime()
-    echo "escape time:" (t2 - t1)"s"
-    return
-endif
-
-" 监听执行命令
-if a:cmd == 52
-    " let cwd = getcwd()
-    " echo "cwd:" cwd
-    return
-endif
-
-
-if a:cmd == 6
-
-    if g:themes_flag == 0
-        let g:themes_flag = 1
-        exec "colorscheme solarized"
-        let g:molokai_original = 0
-        let g:rehash256 = 0
-        exec "set background=dark" 
-        exec "set t_Co=32"
-        return
-    endif
-    if g:themes_flag == 1
-        let g:themes_flag = 2
-        exec "colorscheme molokai"
-        let g:molokai_original = 1
-        let g:rehash256 = 1
-        exec "set background=dark" 
-        exec "set t_Co=256"
+    if a:cmd == 0
+        if g:line_number_show == 0
+            exec 'set nu'
+            exec 'set autoindent'
+            let g:line_number_show = 1
+            echo 'Show line number!'
+        else
+            exec 'set nonu'
+            exec 'set noautoindent'
+            let g:line_number_show = 0
+        endif
         return
     endif
 
-    if g:themes_flag == 2
-        let g:themes_flag = 3 
-        let g:molokai_original = 0
-        let g:rehash256 = 0
-        exec "colorscheme default"
-        exec "set background=light"
-        exec "set t_Co=128"
+    if a:cmd == 1
+        if g:mouse_enable == 0
+            let g:mouse_enable = 1
+            exec 'set mouse=n'
+            echo 'enable mouse'
+        else
+            let g:mouse_enable = 0
+            exec 'set mouse='
+            echo 'disable mouse'
+        endif
         return
     endif
 
-    if g:themes_flag == 3
-        let g:themes_flag = 1 
-
-        exec "set background=dark"
-        exec "set t_Co=256"
+    if a:cmd == 2
+        exec 'WMToggle'
         return
     endif
-    return
-endif
 
-
-if a:cmd == 70
-    exec 'TMiniBufExplorer'
-    return
-endi
-
-if a:cmd == 7
-    exec 'ToggleBufExplorer'
-    return
-endif
-
-if a:cmd == 8
-    if g:quickfix == 0
-        let g:quickfix = 1
-        exec "cclose"
-    else
-        let g:quickfix = 0
-        exec "copen"
+    if a:cmd == 3
+        exec 'TagbarToggle'
+        return
     endif
-    return
-endif
 
-if a:cmd == 80
-    if g:quickfix == 1
-        exec "bn"
-    else
-        exec "cn"
+    if a:cmd == 4
+        if g:MRU_flag == 0
+            let g:MRU_flag = 1
+            exec 'MRU'
+        else
+            let g:MRU_flag = 0
+            exec 'MRU'
+            exec 'q'
+        endif
+        return
     endif
-    return
-endif
 
-if a:cmd == 81
-    if g:quickfix == 1
-        exec "bp"
-    else
-        exec "cp"
+    if a:cmd == 5
+        echo "Start make tag.."
+        let g:time1 = localtime()
+        let g:ctags = system("~/.vim/shell/make-ctags.sh " . shellescape(expand('%:h')))
+        let g:ctag_execcmd = "set tags+=" . g:ctags
+        exec g:ctag_execcmd
+        let g:time2 = localtime()
+        " echo g:ctag_execcmd "escape time:" (g:time2 - g:time1)"s"
+        return
     endif
-    return
-endif
 
-if a:cmd == 20
-    "call MyTabLine()
-    "echo 'tab:' tab
-    return
-endif
+    " 一键更新ctags & cscope..
+    if a:cmd == 50
+        " exec g:ctag_execcmd
+        " cs kill -1
+        " exec g:cscope_cmd
+        return
+    endif
 
-if a:cmd == 30
-    let g:quit_save = 1
-    exec "qall"
-    return
-endif
+    if findfile('~/.vo/link/cscope.out', '~/.vo/link/') != ""
+        silent cs kill -1
+        silent exec "cs add ~/.vo/link/cscope.out"
+    endif
+
+    if a:cmd == 51
+        echo "Start make cscope.."
+        let t1 = localtime()
+        "let db = system("~/.vim/shell/cscope.sh " . shellescape(expand('%:p')))
+        let db = system("~/.vo/link/run.sh update " . shellescape(expand('%:p')))
+        "let path = strpart(db, 0, match(db, "cscope.out")) " 必须这样截取,否则多余的结束符^@会导致cs add 异常.
+        "let g:cscope_cmd = "cs add " . path . "cscope.out"
+        let g:cscope_cmd = "cs add ~/.vo/link/cscope.out"
+        echo g:cscope_cmd
+        cs kill -1
+        exec g:cscope_cmd
+        let t2 = localtime()
+        echo "escape time:" (t2 - t1)"s"
+        return
+    endif
+
+    " 监听执行命令
+    if a:cmd == 52
+        " let cwd = getcwd()
+        " echo "cwd:" cwd
+        return
+    endif
+
+
+    if a:cmd == 6
+
+        if g:themes_flag == 0
+            let g:themes_flag = 1
+            exec "colorscheme solarized"
+            let g:molokai_original = 0
+            let g:rehash256 = 0
+            exec "set background=dark"
+            exec "set t_Co=32"
+            return
+        endif
+        if g:themes_flag == 1
+            let g:themes_flag = 2
+            exec "colorscheme molokai"
+            let g:molokai_original = 1
+            let g:rehash256 = 1
+            exec "set background=dark"
+            exec "set t_Co=256"
+            return
+        endif
+
+        if g:themes_flag == 2
+            let g:themes_flag = 3
+            let g:molokai_original = 0
+            let g:rehash256 = 0
+            exec "colorscheme default"
+            exec "set background=light"
+            exec "set t_Co=128"
+            return
+        endif
+
+        if g:themes_flag == 3
+            let g:themes_flag = 1
+
+            exec "set background=dark"
+            exec "set t_Co=256"
+            return
+        endif
+        return
+    endif
+
+
+    if a:cmd == 70
+        exec 'TMiniBufExplorer'
+        return
+    endi
+
+    if a:cmd == 7
+        exec 'ToggleBufExplorer'
+        return
+    endif
+
+    if a:cmd == 8
+        if g:quickfix == 0
+            let g:quickfix = 1
+            exec "cclose"
+        else
+            let g:quickfix = 0
+            exec "copen"
+        endif
+        return
+    endif
+
+    if a:cmd == 80
+        if g:quickfix == 1
+            exec "bn"
+        else
+            exec "cn"
+        endif
+        return
+    endif
+
+    if a:cmd == 81
+        if g:quickfix == 1
+            exec "bp"
+        else
+            exec "cp"
+        endif
+        return
+    endif
+
+    if a:cmd == 20
+        "call MyTabLine()
+        "echo 'tab:' tab
+        return
+    endif
+
+    if a:cmd == 30
+        let g:quit_save = 1
+        exec "qall"
+        return
+    endif
 
 endfunction
 
@@ -477,63 +478,63 @@ if has("cscope")
     set nocsverb
     " add any database in current directory
     " if filereadable("cscope.out")
-        " cs add cscope.out
-        " else add database pointed to by environment
+    " cs add cscope.out
+    " else add database pointed to by environment
     " elseif $CSCOPE_DB != ""
-        " cs add $CSCOPE_DB
+    " cs add $CSCOPE_DB
     " endif
     set csverb
 endif
 
 "##################################################################[winManager] 文件管理器
-let g:NERDTree_title="[NERDTree]"  
+let g:NERDTree_title="[NERDTree]"
 let g:winManagerWindowLayout='NERDTree'
 
-function! NERDTree_Start()  
-    exec 'NERDTree'  
-endfunction  
-  
-function! NERDTree_IsValid()  
-    return 1  
-endfunction  
+function! NERDTree_Start()
+    exec 'NERDTree'
+endfunction
+
+function! NERDTree_IsValid()
+    return 1
+endfunction
 
 " NOTIC!!! modefiy WinManager.vim to fixed open empty file bug:
-"function! <SID>ToggleWindowsManager()  
-"   if IsWinManagerVisible()  
-"      call s:CloseWindowsManager()  
-"   else  
-"      call s:StartWindowsManager()  
+"function! <SID>ToggleWindowsManager()
+"   if IsWinManagerVisible()
+"      call s:CloseWindowsManager()
+"   else
+"      call s:StartWindowsManager()
 "      exe 'q'  " ADD THIS LINE!
-"   end  
-"endfunction  
+"   end
+"endfunction
 
 "##################################################################[MiniBufExplorer] 文件buffer管理器
 let g:default_open_minibufexplorer = 0
-let g:miniBufExplMapWindowNavVim = 1   
-let g:miniBufExplMapWindowNavArrows = 1   
-let g:miniBufExplMapCTabSwitchBufs = 1   
-let g:miniBufExplModSelTarget = 1  
+let g:miniBufExplMapWindowNavVim = 1
+let g:miniBufExplMapWindowNavArrows = 1
+let g:miniBufExplMapCTabSwitchBufs = 1
+let g:miniBufExplModSelTarget = 1
 let g:miniBufExplMoreThanOne=0
 
 "BufExplorer
 set rtp+=~/.vim/bundle/bufexplorer
- 
+
 let g:bufExplorerShowRelativePath=0  " Show absolute paths.
 let g:bufExplorerSortBy='extension'
 let g:bufExplorerSortBy='fullpath'
 let g:bufExplorerSortBy='mru'
 let g:bufExplorerSortBy='name'
-let g:bufExplorerSortBy='number' 
+let g:bufExplorerSortBy='number'
 
-"nmap <silent> <s-F7> :BufExplorer<CR> 
+"nmap <silent> <s-F7> :BufExplorer<CR>
 "nmap <silent> <m-F7> :BufExplorerHorizontalSplit<CR>
 "nmap <silent> <c-F7> :BufExplorerVerticalSplit<CR>
 "##################################################################[SuperTab]
-let g:SuperTabDefaultCompletionType="context" 
+let g:SuperTabDefaultCompletionType="context"
 
 "##################################################################[TagbarToggle]
-let g:tagbar_ctags_bin = 'ctags'  
-let g:tagbar_width = 30 
+let g:tagbar_ctags_bin = 'ctags'
+let g:tagbar_width = 30
 
 "##################################################################[mru]
 set rtp+=~/.vim/bundle/mru
@@ -571,7 +572,7 @@ let g:NERDCompactSexyComs = 1
 
 "##################################################################[resume history]
 function! LeaveHandler()
-    if (g:quit_save == 1) 
+    if (g:quit_save == 1)
         let g:path = system("~/.vim/shell/get_path.sh " . shellescape(expand('%:h')))
         let execcmd = "mks! ". g:path
         echo execcmd
@@ -582,11 +583,11 @@ function! LeaveHandler()
 endfunction
 "##################################################################[YouCompleteMe]
 
-let g:ycm_min_num_of_chars_for_completion = 3 
-let g:ycm_min_num_of_chars_for_completion = 3 
-let g:ycm_min_num_of_chars_for_completion = 3 
-let g:ycm_min_num_of_chars_for_completion = 3 
-let g:ycm_min_num_of_chars_for_completion = 3 
+let g:ycm_min_num_of_chars_for_completion = 3
+let g:ycm_min_num_of_chars_for_completion = 3
+let g:ycm_min_num_of_chars_for_completion = 3
+let g:ycm_min_num_of_chars_for_completion = 3
+let g:ycm_min_num_of_chars_for_completion = 3
 
 let g:bufExplorerShowRelativePath=0  " Show absolute paths.
 let g:ycm_autoclose_preview_window_after_completion=1
@@ -604,3 +605,5 @@ function! MyTabFunction ()
     return pumvisible() ? "\<c-n>" : "\<c-x>\<c-o>"
 endfunction
 inoremap <tab> <c-r>=MyTabFunction()<cr>
+"##################################################################[vim-autofomat]
+"au BufWrite * :Autoformat

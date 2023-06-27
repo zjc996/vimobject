@@ -1,7 +1,7 @@
 项目名：vimobject
 
 安装依赖：
-    sudo apt install ctags cscope
+    sudo apt install ctags cscope python3-dev cmake
 
 安装：./install
 包含：vimrc配置及其相关vim插件
