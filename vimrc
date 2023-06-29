@@ -40,8 +40,8 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'ervandew/supertab'
 Plugin 'Chiel92/vim-autoformat'
 Plugin 'Lokaltog/vim-distinguished'
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'vim/vim' "vim8.0+
+"Plugin 'Valloric/YouCompleteMe'
+"Plugin 'vim/vim' "vim8.0+
 
 call vundle#end()
 
@@ -581,6 +581,8 @@ function! LeaveHandler()
 endfunction
 "##################################################################[YouCompleteMe]
 
+if has("YouCompleteMe")
+
 "filetype plugin indent on
 " set completeopt=menu,preview
 let g:ycm_min_num_of_chars_for_completion = 3
@@ -609,5 +611,7 @@ function! MyTabFunction ()
     return pumvisible() ? "\<c-n>" : "\<c-x>\<c-o>"
 endfunction
 inoremap <tab> <c-r>=MyTabFunction()<cr>
+
+endif
 "##################################################################[vim-autofomat]
 "au BufWrite * :Autoformat

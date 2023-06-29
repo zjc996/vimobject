@@ -16,6 +16,6 @@
 打开工程：
     vo 自定义工程名
 
-
+vim仓库：https://github.com/vim/vim.git
 
 

@@ -8,7 +8,5 @@ sudo ln -sf `pwd`/bin/vo /usr/bin/vo
 ln -sf `pwd`/configure $HOME/.vo/.configure
 ln -sf `pwd`/template $HOME/.vo/.template
 ln -sf `pwd`/vimrc $HOME/.vimrc
-sudo cp -R vim/* $HOME/.vim/
-sudo chmod 777 $HOME/.vim/
-cd $HOME/.vim/bundle/YouCompleteMe/third_party/ycmd
-python3 build.py
+cp -R vim/* $HOME/.vim/
+vim +PluginInstall +qall
