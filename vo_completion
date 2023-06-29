@@ -3,12 +3,24 @@ cmd_complete() {
     COMPREPLY=()
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev="${COMP_WORDS[COMP_CWORD-1]}"
-    files=$(find $HOME/.vo/objs/ -maxdepth 1 -type d -printf "%f\n" | grep -v objs/)
-        COMPREPLY=( $(compgen -W "${files}" -- "${cur}") )  # 根据文件名生成补全项
-    if [[ ${cur} == -* ]] ; then
-        opts="-c -u -d -r -a"
-        COMPREPLY=( $(compgen -W "${opts}" -- ${cur}) )
-    fi
+
+    # 根据不同情况生成补全项
+            # 根据文件名生成补全项
+            files=$(find $HOME/.ctags/objs/ -maxdepth 1 -type d -printf "%f\n" | grep -v objs/)
+            COMPREPLY+=( $(compgen -W "${files}" -- "${cur}") )
+            if [[ "${cur}" == */* ]]; then
+                # 补全目录下的内容
+                dir="${cur%/*}"
+                contents=$(ls -p ${dir} | grep -v /)
+                COMPREPLY+=( $(compgen -W "${contents}" -- "${cur}") )
+            else
+                # 补全当前目录下的目录和文件
+                dir_opts=$(ls -p | grep /)
+                file_opts=$(ls -p | grep -v /)
+                COMPREPLY+=( $(compgen -W "${dir_opts}" -- "${cur}") )
+                COMPREPLY+=( $(compgen -W "${file_opts}" -- "${cur}") )
+            fi
+
     return 0
 }
-complete -F cmd_complete vo
+complete -F cmd_complete vi

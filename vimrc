@@ -1,6 +1,21 @@
+"##################################################################[ctags_manage]
+if stridx(argv(1), "config") == 0
+    let cmd = printf('!~/.vim/shell/ctags_manage.sh %s %s', shellescape(argv(0)), shellescape(argv(1)))
+    silent execute cmd
+    q!
+endif
+if argv(0) != "" && argv(0) != "." && argv(0) != ".."
+    let dir = expand("~/.ctags/objs/" . argv(0))
+    if isdirectory(dir)
+        let cmd = printf('!~/.vim/shell/ctags_manage.sh %s %s', shellescape(argv(0)), shellescape(argv(1)))
+        silent execute cmd
+        q!
+    endif
+endif
+
 
 "##################################################################[Plugin manager]
-" http://www.cnblogs.com/songfy/p/5635757.html
+
 set rtp+=~/.vim/bundle/Vundle.vim
 "每次切换都把文件路径导入文件中
 function! AppendToFile()
@@ -154,7 +169,7 @@ autocmd BufNewFile * call UserFunctionSwitch(52)
 " cd ~/.ctags
 " ctags -R ${source_path}
 
-set tags=~/.vo/link/tags
+set tags=~/.ctags/link/tags
 
 let g:argc = argc()
 let g:argv = argv(0)
@@ -322,19 +337,19 @@ function! UserFunctionSwitch(cmd)
         return
     endif
 
-    if findfile('~/.vo/link/cscope.out', '~/.vo/link/') != ""
+    if findfile('~/.ctags/link/cscope.out', '~/.ctags/link/') != ""
         silent cs kill -1
-        silent exec "cs add ~/.vo/link/cscope.out"
+        silent exec "cs add ~/.ctags/link/cscope.out"
     endif
 
     if a:cmd == 51
         echo "Start make cscope.."
         let t1 = localtime()
         "let db = system("~/.vim/shell/cscope.sh " . shellescape(expand('%:p')))
-        let db = system("~/.vo/link/run.sh update " . shellescape(expand('%:p')))
+        let db = system("~/.ctags/link/run.sh update " . shellescape(expand('%:p')))
         "let path = strpart(db, 0, match(db, "cscope.out")) " 必须这样截取,否则多余的结束符^@会导致cs add 异常.
         "let g:cscope_cmd = "cs add " . path . "cscope.out"
-        let g:cscope_cmd = "cs add ~/.vo/link/cscope.out"
+        let g:cscope_cmd = "cs add ~/.ctags/link/cscope.out"
         echo g:cscope_cmd
         cs kill -1
         exec g:cscope_cmd

@@ -4,7 +4,7 @@ cd $g_rootPath/objs/$name
 source configure
 CscopeInit()
 {
-	if [ "$g_todo" != "-u" ]; then
+	if [ "$g_todo" != "update" ]; then
 		return
 	fi
     rm -f cscope* tags
@@ -16,5 +16,5 @@ CscopeInit()
 CscopeInit
 rm -rf $g_rootPath/link
 ln -s $g_rootPath/objs/$name $g_rootPath/link
-vim $runPath
+vi $runPath
 exit 0 

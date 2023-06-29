@@ -10,7 +10,7 @@ if [ $(echo $0 | grep '^/') ]; then
 		g_rootPath=$(pwd)/$(dirname $0)
 fi
 #工程根目录
-g_rootPath=~/.vo/
+g_rootPath=~/.ctags/
 #入参个数
 g_paramNum=$#
 #工程名
@@ -50,7 +50,6 @@ CheckParameters()
 CreateObject()
 {
 	name=$1
-    
 	if [ ! -d $name ]; then
 		mkdir -p $name
 		touch $name/run.sh
@@ -69,7 +68,7 @@ CreateObject()
 ObjectConfig()
 {
 	name=$1
-	vim $name/configure
+	vi $name/configure
 	
 
 	exit
@@ -121,22 +120,25 @@ main()
     #echo name=$name
     #echo todo=$todo
 
-	if [[ "$name" =~ ^-.* ]]; then
-        echo error param
-        exit 0
+	if [[ "$name" =~ ^ctags-.* ]]; then
+        name=$(echo "$name" | cut -d '-' -f 2)	
+        if [[ "$name" == "" ]]; then
+            echo error param
+            exit 0
+        fi
     fi
-	
+
 	cd $g_rootPath/objs
 	CreateObject $name
     cd - >> /dev/null
 
     # 添加项目目录pwd
-	if [ "$todo" == "-a" ]; then
+	if [ "$todo" == "add" ]; then
         ObjectAddFile $name
         exit 0
     fi
     # 修改运行路径
-	if [ "$todo" == "-r" ]; then
+	if [ "$todo" == "run" ]; then
 		RunPath $name $PWD
         exit 0
     fi
@@ -148,17 +150,17 @@ main()
 	fi
 	#CheckParameters $paramNum $name $todo
 	# 删除工程
-	if [ "$todo" == "-d" ]; then
+	if [ "$todo" == "delete" ]; then
 		Delete $name	
         exit 0
 	fi
     # 配置工程
-	if [ "$todo" == "-c" ]; then
+	if [ "$todo" == "config" ]; then
 		ObjectConfig $name	
         exit 0
 	fi 
     # 更新工程，刷新tag，cscope
-	if [ "$todo" == "-u" ]; then
+	if [ "$todo" == "update" ]; then
         echo "update object $name tags"
         $name/run.sh $todo
         exit 0
