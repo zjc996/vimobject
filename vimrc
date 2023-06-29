@@ -45,8 +45,6 @@ Plugin 'vim/vim' "vim8.0+
 
 call vundle#end()
 
-filetype plugin indent on
-" set completeopt=menu,preview
 
 "##################################################################[default value set]
 set modelines=0
@@ -87,7 +85,7 @@ set showcmd "在状态行显示目前所执行的命令，未完成的指令片�
 set scrolloff=3 "光标移动到buffer的顶部和底部时保持3行的距离
 "set showmatch "高亮显示对应的括号
 set matchtime=5 "对应括号高亮时间(单位是十分之一秒)
-set autowrite "在切换buffer时自动保存当前文件
+"set autowrite "在切换buffer时自动保存当前文件
 set wildmenu  "增强模式中的命令行自动完成操作
 set linespace=2 "字符间插入的像素行数目
 set whichwrap=b,s,<,>,[,] "开启normal 或visual模式下的backspace键空格键，
@@ -583,17 +581,23 @@ function! LeaveHandler()
 endfunction
 "##################################################################[YouCompleteMe]
 
+"filetype plugin indent on
+" set completeopt=menu,preview
 let g:ycm_min_num_of_chars_for_completion = 3
-let g:ycm_min_num_of_chars_for_completion = 3
-let g:ycm_min_num_of_chars_for_completion = 3
-let g:ycm_min_num_of_chars_for_completion = 3
-let g:ycm_min_num_of_chars_for_completion = 3
-
 let g:bufExplorerShowRelativePath=0  " Show absolute paths.
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_complete_in_comments = 1
+let g:ycm_use_undiminished_completion = 1
+let g:ycm_server_use_vim_job_runner = 1
+" 减少YouCompleteMe的诊断更新频率
+let g:ycm_diagnostic_delay = 500
+
+" 限制YouCompleteMe的异步任务并行数
+let g:ycm_max_num_jobs = 1
+
 let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
 let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
+
 " 比较喜欢用tab来选择补全...
 function! MyTabFunction ()
     let line = getline('.')
