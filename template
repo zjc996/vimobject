@@ -16,5 +16,6 @@ CscopeInit()
 CscopeInit
 rm -rf $g_rootPath/link
 ln -s $g_rootPath/objs/$name $g_rootPath/link
-vi $runPath
+#修改默认打开目录，NERDTree窗口默认会打开两个，全屏并关闭空白窗口
+echo "autocmd VimEnter * if filereadable(expand('%')) | execute 'cd %:p:h' | else | execute 'NERDTree $runPath'| wincmd | | wincmd p  |  q | endif" > $g_rootPath/link/ctags.vim
 exit 0 

@@ -1,15 +1,17 @@
+
 "##################################################################[ctags_manage]
 if stridx(argv(1), "config") == 0
     let cmd = printf('!~/.vim/shell/ctags_manage.sh %s %s', shellescape(argv(0)), shellescape(argv(1)))
     silent execute cmd
     q!
 endif
-if argv(0) != "" && argv(0) != "." && argv(0) != ".."
+if argv(0) != "." && argv(0) != ".."
     let dir = expand("~/.ctags/objs/" . argv(0))
     if isdirectory(dir)
         let cmd = printf('!~/.vim/shell/ctags_manage.sh %s %s', shellescape(argv(0)), shellescape(argv(1)))
         silent execute cmd
-        q!
+        source ~/.ctags/link/ctags.vim
+        "q!
     endif
 endif
 
@@ -17,19 +19,6 @@ endif
 "##################################################################[Plugin manager]
 
 set rtp+=~/.vim/bundle/Vundle.vim
-"每次切换都把文件路径导入文件中
-function! AppendToFile()
-    let l:start_time = reltime()
-    ":! vo -b "%:p"
-    "execute 'silent! call writefile([expand("%:p")], "/home/zjc/1.txt", "w")'
-    let l:end_time = reltime(l:start_time)
-    if reltimestr(l:end_time) !=# '0.0000'
-        "echomsg 'Appended file: ' . expand("%:p") . ' (Time: ' . reltimestr(l:end_time) . ')'
-    endif
-endfunction
-
-autocmd VimEnter * call timer_start(500, { -> AppendToFile() })
-
 
 call vundle#begin()
 
@@ -43,7 +32,7 @@ Plugin 'wincent/command-t'
 Plugin 'scrooloose/nerdtree'
 Plugin 'majutsushi/tagbar'
 Plugin 'jiangmiao/auto-pairs'
-Plugin 'minibufexpl.vim'
+" Plugin 'minibufexpl.vim'
 Plugin 'jlanzarotta/bufexplorer'
 Plugin 'taglist.vim'
 Plugin 'scrooloose/nerdcommenter'
@@ -59,7 +48,6 @@ Plugin 'Lokaltog/vim-distinguished'
 "Plugin 'vim/vim' "vim8.0+
 
 call vundle#end()
-
 
 "##################################################################[default value set]
 set modelines=0
@@ -100,7 +88,8 @@ set showcmd "在状态行显示目前所执行的命令，未完成的指令片�
 set scrolloff=3 "光标移动到buffer的顶部和底部时保持3行的距离
 "set showmatch "高亮显示对应的括号
 set matchtime=5 "对应括号高亮时间(单位是十分之一秒)
-"set autowrite "在切换buffer时自动保存当前文件
+
+set autowrite "在切换buffer时自动保存当前文件
 set wildmenu  "增强模式中的命令行自动完成操作
 set linespace=2 "字符间插入的像素行数目
 set whichwrap=b,s,<,>,[,] "开启normal 或visual模式下的backspace键空格键，
@@ -522,12 +511,12 @@ endfunction
 "endfunction
 
 "##################################################################[MiniBufExplorer] 文件buffer管理器
-let g:default_open_minibufexplorer = 0
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplMapWindowNavArrows = 1
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplModSelTarget = 1
-let g:miniBufExplMoreThanOne=0
+"let g:default_open_minibufexplorer = 0
+"let g:miniBufExplMapWindowNavVim = 1
+"let g:miniBufExplMapWindowNavArrows = 1
+"let g:miniBufExplMapCTabSwitchBufs = 1
+"let g:miniBufExplModSelTarget = 1
+"let g:miniBufExplMoreThanOne=0
 
 "BufExplorer
 set rtp+=~/.vim/bundle/bufexplorer
@@ -594,39 +583,3 @@ function! LeaveHandler()
         echo "exit but no save session.vim"
     endif
 endfunction
-"##################################################################[YouCompleteMe]
-
-if has("YouCompleteMe")
-
-"filetype plugin indent on
-" set completeopt=menu,preview
-let g:ycm_min_num_of_chars_for_completion = 3
-let g:bufExplorerShowRelativePath=0  " Show absolute paths.
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_complete_in_comments = 1
-let g:ycm_use_undiminished_completion = 1
-let g:ycm_server_use_vim_job_runner = 1
-" 减少YouCompleteMe的诊断更新频率
-let g:ycm_diagnostic_delay = 500
-
-" 限制YouCompleteMe的异步任务并行数
-let g:ycm_max_num_jobs = 1
-
-let g:ycm_key_list_select_completion = ['<c-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<c-p>', '<Up>']
-
-" 比较喜欢用tab来选择补全...
-function! MyTabFunction ()
-    let line = getline('.')
-    let substr = strpart(line, -1, col('.')+1)
-    let substr = matchstr(substr, "[^ \t]*$")
-    if strlen(substr) == 0
-        return "\<tab>"
-    endif
-    return pumvisible() ? "\<c-n>" : "\<c-x>\<c-o>"
-endfunction
-inoremap <tab> <c-r>=MyTabFunction()<cr>
-
-endif
-"##################################################################[vim-autofomat]
-"au BufWrite * :Autoformat

@@ -511,3 +511,6 @@ hi cMacro       gui=none cterm=none ctermfg=79
 hi Type        gui=none cterm=bold ctermfg=32                                                    
 
 "hi cDefine      gui=none cterm=none ctermfg=168
+
+syn keyword Boolean true false
+

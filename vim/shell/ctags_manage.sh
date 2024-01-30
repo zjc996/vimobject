@@ -1,0 +1,1 @@
+/home/zjc/workdir/source/vo/bin/ctags_manage.sh

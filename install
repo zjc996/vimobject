@@ -1,5 +1,7 @@
 #!/bin/bash
 mkdir -p $HOME/.ctags/objs
+mkdir -p $HOME/.vim/shell/
+
 ln -sf `pwd`/bin/ctags_manage.sh  $HOME/.vim/shell/ctags_manage.sh
 mkdir -p $HOME/.bash_completion.d/
 ln -sf `pwd`/vo_completion $HOME/.bash_completion.d/vo_completion

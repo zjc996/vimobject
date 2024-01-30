@@ -120,14 +120,6 @@ main()
     #echo name=$name
     #echo todo=$todo
 
-	if [[ "$name" =~ ^ctags-.* ]]; then
-        name=$(echo "$name" | cut -d '-' -f 2)	
-        if [[ "$name" == "" ]]; then
-            echo error param
-            exit 0
-        fi
-    fi
-
 	cd $g_rootPath/objs
 	CreateObject $name
     cd - >> /dev/null
@@ -145,7 +137,7 @@ main()
 
     cd - >> /dev/null
     # 无参数就运行之前打开的工程
-	if [ $paramNum -eq 0 ]; then
+	if [ $paramNum -eq 0 ] || [ "$name" == ""  ]; then
 		RunOldObject
 	fi
 	#CheckParameters $paramNum $name $todo
